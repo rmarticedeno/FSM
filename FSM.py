@@ -1,12 +1,13 @@
 import time
 from FSMServer import FSMServer
 from rpyc.utils.server import ThreadedServer
+import uuid
 import rpyc
 
 class FSM:
-
+    
     def __init__(self, id, status_info, status_comparer, on_change, peer_resolver, conn_validator, port = 6000, sleep_time = 300):
-        self.id = id
+        self.id = id if id else uuid.uuid4()
         self.status_info = status_info
         self.on_change = on_change
         self.status_comparer = status_comparer
@@ -23,6 +24,8 @@ class FSM:
             self.on_change()
 
     def start(self):
+        s = ThreadedServer(self.server, port=self.port)
+        s._start_in_thread()
         while(True):
             try:
                 for ip in self.peer_resolver():
