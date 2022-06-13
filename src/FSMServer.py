@@ -13,4 +13,4 @@ class FSMServer(rpyc.Service):
             conn.close()
 
     def exposed_info(self):
-        return (id, self.status_info())
+        return (self.id, self.status_info())

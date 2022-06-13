@@ -4,7 +4,6 @@ from socket import socket
 
 
 def filtered_open(func):
-
     def apply(self, conn):
 
         ip = socket.getpeername(conn._channel.stream.sock)
@@ -16,7 +15,6 @@ def filtered_open(func):
     return apply
 
 def validate_conn(conn):
-    ip = socket.getpeername(conn._channel.stream.sock)
-    print(ip)
-
-    return True
+    ip = socket.getpeername(conn._channel.stream.sock)[0]
+    
+    return ip in get_members('uh.cu')
